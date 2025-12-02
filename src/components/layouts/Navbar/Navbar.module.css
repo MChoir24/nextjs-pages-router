@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.navbar {
+  @apply flex w-full h-[70px] bg-black text-white items-center px-[5%] shadow-lg shadow-gray-500;
+}
