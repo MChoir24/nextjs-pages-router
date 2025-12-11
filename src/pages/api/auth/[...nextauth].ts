@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CreadentialsProvider from "next-auth/providers/credentials";
 
 const authOptions: NextAuthOptions = {
@@ -24,6 +24,7 @@ const authOptions: NextAuthOptions = {
           email: "admin@example.com",
           password: "admin",
         };
+        console.log(email);
         if (email === hardCodedUser.email && password === "admin") {
           return hardCodedUser;
         }
@@ -36,6 +37,7 @@ const authOptions: NextAuthOptions = {
       if (account?.provider === "credentials") {
         token.email = user?.email;
       }
+      console.log(token);
       return token;
     },
 
@@ -47,3 +49,5 @@ const authOptions: NextAuthOptions = {
     },
   },
 };
+
+export default NextAuth(authOptions);

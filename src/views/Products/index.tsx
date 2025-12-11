@@ -10,8 +10,8 @@ export default function ProductsView({
 }) {
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Products Page</h1>
-      <p>
+      <h1 className="text-3xl font-bold">Products Page</h1>
+      <p className="mb-6">
         Welcome to the products page. Here you will find a variety of products
         available for purchase.
       </p>
