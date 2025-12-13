@@ -12,6 +12,7 @@ export default function Navbar() {
           My Navbar
         </Link>
         <Link href="/products">Products</Link>
+        <Link href="/profile">Profile</Link>
       </div>
       {data?.user ? (
         <div className="flex gap-3 items-end">
