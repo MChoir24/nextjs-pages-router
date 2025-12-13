@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import style from "./Login.module.css";
-import PrimaryButton from "@/components/elements/buttons/PrimaryButton";
+import PrimaryButton from "@/components/elements/PrimaryButton";
 import Link from "next/link";
 
 export default function LoginViews() {
@@ -15,7 +15,12 @@ export default function LoginViews() {
       <h1 className="text-3xl font-bold mb-4">Login Page</h1>
       <PrimaryButton onClick={() => handleLogin()}>Login</PrimaryButton>
       <p>Please enter your credentials to log in.</p>
-      <span>or register <Link href={"/auth/register"} className="text-blue-600 underline">Here</Link></span>
+      <span>
+        or register{" "}
+        <Link href={"/auth/register"} className="text-blue-600 underline">
+          Here
+        </Link>
+      </span>
     </div>
   );
 }
