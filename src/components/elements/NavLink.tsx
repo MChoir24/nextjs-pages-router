@@ -26,12 +26,23 @@ export default function NavLink({
     <Link
       href={href}
       aria-current={isActive ? "page" : undefined}
-      className={cn("text-lg group relative w-max", className, isActive && "font-bold")}
+      className={cn(
+        "text-lg group relative w-max",
+        className,
+        isActive && "font-bold"
+      )}
       {...props}
     >
       <span>{children}</span>
       <span
-        className={`absolute -bottom-1 left-0 h-0.5 ${lineColor} transition-all ${isActive ? "w-full" : "w-0 group-hover:w-3/6"}`}
+        className={`absolute -bottom-1 left-1/2 h-0.5 ${lineColor} transition-all ${
+          isActive ? "w-3/6" : "w-0 group-hover:w-3/6"
+        }`}
+      ></span>
+      <span
+        className={`absolute -bottom-1 right-1/2 h-0.5 ${lineColor} transition-all ${
+          isActive ? "w-3/6" : "w-0 group-hover:w-3/6"
+        }`}
       ></span>
     </Link>
   );
