@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import style from "./Login.module.css";
-import PrimaryButton from "@/components/elements/PrimaryButton";
+import PrimaryButton from "@/components/elements/buttons/PrimaryButton";
 import Link from "next/link";
 
 export default function LoginViews() {

@@ -1,3 +1,4 @@
+import EditableField from "@/components/elements/EditableField";
 import {
   BeakerIcon,
   PencilIcon,
@@ -27,21 +28,24 @@ export default function ProfilePage() {
         {/* Profile information */}
         <div className="bg-white shadow rounded-lg p-6">
           <div className="flex items-center gap-4">
-            <p>
-              <span className="font-semibold">Name:</span> {session?.user?.name}
-            </p>
-            <button>
-              <PencilSquareIcon className="size-5 text-gray-500" />
-            </button>
+            <label htmlFor="name" className="font-semibold">
+              Name:
+            </label>
+            <EditableField
+              value={session?.user?.name}
+              tableName={""}
+              fieldName={"name"}
+              id="name"
+            />
           </div>
           <div className="flex items-center gap-4 mt-2">
-            <p className="mt-2">
-              <span className="font-semibold">Email:</span>{" "}
-              {session?.user?.email}
-            </p>
-            <button>
-              <PencilSquareIcon className="size-5 text-gray-500" />
-            </button>
+            <label className="font-semibold">Email:</label>
+            <EditableField
+              value={session?.user?.email}
+              tableName={""}
+              fieldName={""}
+              id="email"
+            />
           </div>
         </div>
       </div>

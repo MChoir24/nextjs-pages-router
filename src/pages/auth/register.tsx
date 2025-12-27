@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PrimaryButton from "@/components/elements/PrimaryButton";
+import PrimaryButton from "@/components/elements/buttons/PrimaryButton";
 import { useRouter } from "next/router";
 
 export default function RegisterPage() {
