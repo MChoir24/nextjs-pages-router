@@ -1,4 +1,4 @@
-import ProductsView from "@/views/Products";
+import ProductsView from "@/components/views/Products";
 import useSWR from "swr";
 import { fetcher } from "@/lib/swr/fetcher";
 

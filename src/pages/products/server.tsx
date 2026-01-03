@@ -1,4 +1,4 @@
-import ProductsView from "@/views/Products";
+import ProductsView from "@/components/views/Products";
 import { Product } from "../api/[[...products]]";
 
 export default function ProductsPage({ products }: { products: Product[] }) {

@@ -1,10 +1,9 @@
-import LoginViews from "@/views/Auth/Login";
+import LoginViews from "@/components/views/Auth/Login";
 
 export default function LoginPage() {
-
   return (
     <>
-      <LoginViews/>
+      <LoginViews />
     </>
   );
 }
