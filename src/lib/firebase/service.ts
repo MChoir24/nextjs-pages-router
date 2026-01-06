@@ -8,6 +8,7 @@ import {
   query,
 } from "firebase/firestore";
 import app from "./init";
+import bcrypt from "bcrypt";
 
 export const db = getFirestore(app);
 
@@ -23,7 +24,14 @@ export async function retrieveDataById(collectionName: string, id: string) {
   return data;
 }
 
-export async function signUpUser( userData: { email: string; password: string; name: string }, callback: Function
+type UserData = {
+  email: string;
+  password: string;
+  name: string;
+  role?: string;
+};
+
+export async function signUpUser( userData: UserData, callback: Function
 ) {
   // Check if user already exists
   const q = query(collection(db, "users"));
@@ -38,6 +46,8 @@ export async function signUpUser( userData: { email: string; password: string; n
   }
 
   try {
+    userData.password = await bcrypt.hash(userData.password, 10);
+    userData.role = "user"; // default role
     const docRef = await addDoc(collection(db, "users"), userData);
     callback({ status: true, message: "User registered successfully", id: docRef.id });
   } catch (error) {

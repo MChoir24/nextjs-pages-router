@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PrimaryButton from "@/components/elements/buttons/PrimaryButton";
+import Button from "@/components/elements/Button";
 import { useRouter } from "next/router";
 import RegisterView from "@/components/views/Auth/Register";
 

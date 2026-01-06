@@ -1,4 +1,4 @@
-import PrimaryButton from "@/components/elements/buttons/PrimaryButton";
+import { Button } from "@/components/elements/Button";
 import { Input } from "@/components/elements/Input";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,6 +9,7 @@ export default function RegisterView() {
   const { push } = useRouter();
   const handleRegister = async (event: any) => {
     event.preventDefault();
+    console.log("Registering user...");
     const form = event.target;
     const formData = {
       email: form.email.value,
@@ -78,7 +79,13 @@ export default function RegisterView() {
             required
           />
         </form>
-        <PrimaryButton type="submit">Register</PrimaryButton>
+        <Button type="submit">Register</Button>
+        {/* <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Register
+        </button> */}
         <span className="mt-4 text-center">
           Already have an account? Login{" "}
           <Link href={"/auth/login"} className="text-blue-600 underline">
