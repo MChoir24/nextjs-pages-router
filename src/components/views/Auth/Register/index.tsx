@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function RegisterView() {
   const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleRegister = async (event: any) => {
     event.preventDefault();
     console.log("Registering user...");
@@ -45,7 +46,7 @@ export default function RegisterView() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <h1 className="text-3xl font-bold mb-4">Register Page</h1>
       <div className="w-full max-w-sm border border-gray-300 p-6 bg-white rounded shadow-md mb-4 flex flex-col">
-        <form className="" onSubmit={handleRegister}>
+        <form onSubmit={handleRegister}>
           <Input
             id="email"
             type="email"
@@ -78,11 +79,11 @@ export default function RegisterView() {
             className="mb-4"
             required
           />
+          <Button type="submit">Register</Button>
         </form>
-        <Button type="submit">Register</Button>
         {/* <button
           type="submit"
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
         >
           Register
         </button> */}
