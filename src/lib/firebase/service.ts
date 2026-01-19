@@ -31,8 +31,13 @@ type UserData = {
   role?: string;
 };
 
-export async function signUpUser( userData: UserData, callback: Function
-) {
+type SignUpCallback = (response: {
+  status: boolean;
+  message: string;
+  id?: string;
+}) => void;
+
+export async function signUpUser(userData: UserData, callback: SignUpCallback) {
   // Check if user already exists
   const q = query(collection(db, "users"));
   const querySnapshot = await getDocs(q);
@@ -41,7 +46,7 @@ export async function signUpUser( userData: UserData, callback: Function
   );
 
   if (userExists) {
-    callback({ status: false, message: "User already exists" });
+    callback({ status: false, message: "User already exists!" });
     return;
   }
 
@@ -49,7 +54,11 @@ export async function signUpUser( userData: UserData, callback: Function
     userData.password = await bcrypt.hash(userData.password, 10);
     userData.role = "user"; // default role
     const docRef = await addDoc(collection(db, "users"), userData);
-    callback({ status: true, message: "User registered successfully", id: docRef.id });
+    callback({
+      status: true,
+      message: "User registered successfully",
+      id: docRef.id,
+    });
   } catch (error) {
     callback({ status: false, message: "Error registering user" });
   }
