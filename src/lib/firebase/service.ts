@@ -6,6 +6,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  where,
 } from "firebase/firestore";
 import app from "./init";
 import bcrypt from "bcrypt";
@@ -25,6 +26,7 @@ export async function retrieveDataById(collectionName: string, id: string) {
 }
 
 type UserData = {
+  id?: string;
   email: string;
   password: string;
   name: string;
@@ -42,7 +44,7 @@ export async function signUpUser(userData: UserData, callback: SignUpCallback) {
   const q = query(collection(db, "users"));
   const querySnapshot = await getDocs(q);
   const userExists = querySnapshot.docs.some(
-    (doc) => doc.data().email === userData.email
+    (doc) => doc.data().email === userData.email,
   );
 
   if (userExists) {
@@ -60,6 +62,25 @@ export async function signUpUser(userData: UserData, callback: SignUpCallback) {
       id: docRef.id,
     });
   } catch (error) {
-    callback({ status: false, message: "Error registering user" });
+    callback({ status: false, message: `Error registering user: ${error}` });
   }
+}
+
+export async function signInUser(email: string, password: string) {
+  const q = query(collection(db, "users"), where("email", "==", email));
+  const querySnapshot = await getDocs(q); // Get all users to find matching email
+  const userDoc = querySnapshot.docs[0];
+
+  if (!userDoc) {
+    return null;
+  }
+
+  // Verify password
+  const userData = userDoc.data() as UserData;
+  const isPasswordValid = await bcrypt.compare(password, userData.password); // Compare hashed passwords
+
+  if (!isPasswordValid) {
+    return null;
+  }
+  return { id: userDoc.id, ...userData };
 }

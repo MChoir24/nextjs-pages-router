@@ -30,6 +30,7 @@ export default function LoginViews() {
         password: formData.password,
         callbackUrl: callbackUrl,
       });
+      console.log(res);
       if (res && !res.error) {
         setIsLoading(false);
         push(callbackUrl);

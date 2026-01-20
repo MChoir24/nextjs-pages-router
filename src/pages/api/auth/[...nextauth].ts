@@ -1,4 +1,7 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { signInUser } from "@/lib/firebase/service";
+import { sign } from "crypto";
+import NextAuth, { NextAuthOptions, User } from "next-auth";
+import { UserData } from "next-auth/providers/42-school";
 import CreadentialsProvider from "next-auth/providers/credentials";
 
 const authOptions: NextAuthOptions = {
@@ -18,32 +21,29 @@ const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-        const hardCodedUser = {
-          id: "1",
-          name: "Admin User",
-          email: "admin@example.com",
-          password: "admin",
-        };
-        console.log(email);
-        if (email === hardCodedUser.email && password === "admin") {
-          return hardCodedUser;
-        }
-        return null;
+        const user = await signInUser(email, password);
+        return user;
       },
     }),
   ],
   callbacks: {
-    jwt({ token, account, profile, user }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    jwt({ token, account, user }: any) {
       if (account?.provider === "credentials") {
         token.email = user?.email;
+        token.role = user?.role;
       }
       console.log(token);
       return token;
     },
 
-    async session({ session, token }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: any) {
       if ("email" in token && session.user) {
         session.user.email = token.email;
+      }
+      if ("role" in token && session.user) {
+        session.user.role = token.role;
       }
       return session;
     },
