@@ -1,7 +1,5 @@
 import { signInUser } from "@/lib/firebase/service";
-import { sign } from "crypto";
-import NextAuth, { NextAuthOptions, User } from "next-auth";
-import { UserData } from "next-auth/providers/42-school";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CreadentialsProvider from "next-auth/providers/credentials";
 
 const authOptions: NextAuthOptions = {

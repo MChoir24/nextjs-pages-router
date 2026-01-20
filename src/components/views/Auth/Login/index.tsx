@@ -1,10 +1,8 @@
 import { useRouter } from "next/router";
-import style from "./Login.module.css";
 import { Button } from "@/components/elements/Button";
 import Link from "next/link";
 import { useState } from "react";
 import { Input } from "@/components/elements/Input";
-import { sign } from "crypto";
 import { signIn } from "next-auth/react";
 
 export default function LoginViews() {
