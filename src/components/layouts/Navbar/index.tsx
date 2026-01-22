@@ -22,7 +22,8 @@ export default function Navbar() {
       {data?.user ? (
         <div className="flex gap-3 items-end">
           <div className="cursor-pointer">
-            Signed in as <strong>{data.user.email}</strong>
+            Signed in as{" "}
+            <strong className="capitalize">{data.user.name}</strong>
           </div>
           <button
             className="cursor-pointer bg-red-600 px-3 py-1 rounded"

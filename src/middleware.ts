@@ -7,4 +7,9 @@ export function mainMiddleware(request: NextRequest) {
   return res;
 }
 
-export default withAuth(mainMiddleware, ["/profile", "/products"]);
+// Protect specific routes with authentication
+export default withAuth(mainMiddleware, [
+  "/profile",
+  "/products",
+  "/dashboard",
+]);

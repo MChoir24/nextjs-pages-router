@@ -6,6 +6,9 @@ import {
   NextResponse,
 } from "next/server";
 
+// Define paths that require admin role
+const onlyAdminPaths: string[] = ["/dashboard", "/dashboard/settings"];
+
 export default function withAuth(
   middleware: NextProxy,
   requireAuth: string[] = [],
@@ -21,6 +24,12 @@ export default function withAuth(
         const loginUrl = new URL("/auth/login", req.url);
         loginUrl.searchParams.set("callbackUrl", req.nextUrl.href);
         return NextResponse.redirect(loginUrl);
+      }
+
+      // Check for admin role on specific paths
+      if (onlyAdminPaths.includes(pathname) && token.role !== "admin") {
+        const homeUrl = new URL("/", req.url);
+        return NextResponse.redirect(homeUrl);
       }
     }
     return middleware(req, next);
