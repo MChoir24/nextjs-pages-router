@@ -1,6 +1,8 @@
 import { signInUser } from "@/lib/firebase/service";
+import { log } from "console";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CreadentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -23,6 +25,10 @@ const authOptions: NextAuthOptions = {
         return user;
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
   ],
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,18 +37,36 @@ const authOptions: NextAuthOptions = {
         token.email = user?.email;
         token.role = user?.role;
       }
-      console.log(token);
+      if (account?.provider === "google") {
+        token.id = user?.id;
+        token.email = user?.email;
+        token.role = "user";
+        token.name = user?.name;
+        token.image = user?.image;
+      }
       return token;
     },
 
+    /**
+     * Callback invoked whenever session is checked.
+     * The session object is populated by NextAuth with user data from the JWT token,
+     * which is created during the signIn callback. The session.user data originates from
+     * the user object returned by your authentication provider (e.g., database query, OAuth provider).
+     * Use this callback to add or modify session data before it's returned to the client.
+     *
+     * @param session - The session object containing user information
+     * @param token - The JWT token containing encoded user data
+     * @returns The modified session object
+     */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: any) {
       if ("email" in token && session.user) {
-        session.user.email = token.email;
+        session.user.email = token.email; // already set by NextAuth
       }
       if ("role" in token && session.user) {
-        session.user.role = token.role;
+        session.user.role = token.role; // add custom role to session user
       }
+      console.log("session callback", session);
       return session;
     },
   },

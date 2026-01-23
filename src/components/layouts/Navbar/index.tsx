@@ -21,8 +21,15 @@ export default function Navbar() {
       </div>
       {data?.user ? (
         <div className="flex gap-3 items-end">
-          <div className="cursor-pointer">
-            Signed in as{" "}
+          <div className="cursor-pointer flex items-center">
+            {data.user.image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={data.user.image}
+                alt="Profile"
+                className="w-8 h-8 rounded-full mr-2"
+              />
+            )}
             <strong className="capitalize">{data.user.name}</strong>
           </div>
           <button

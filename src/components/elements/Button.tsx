@@ -1,8 +1,7 @@
 import * as React from "react";
 import { cn } from "@sglara/cn";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
@@ -19,7 +18,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const variants = {
       primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
@@ -35,8 +34,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "h-12 px-6 text-base",
     };
 
-    console.log(props.type);
-
     return (
       <button
         ref={ref}
@@ -51,7 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variants[variant],
           sizes[size],
 
-          className
+          className,
         )}
         {...props}
       >
@@ -61,7 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

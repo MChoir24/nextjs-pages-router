@@ -31,7 +31,6 @@ export default function EditableField({
   const { data: session } = useSession(); //simulate save to session user
 
   const editHandler = async () => {
-    console.log(session);
     if (isEditing) {
       session!.user = {
         ...session!.user,
