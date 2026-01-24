@@ -6,6 +6,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import app from "./init";
@@ -25,6 +26,16 @@ export async function retrieveDataById(collectionName: string, id: string) {
   return data;
 }
 
+export async function getUserByEmail(email: string){
+  const q = query(collection(db, "users"), where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.empty) {
+    return null;
+  }
+  const userDoc = querySnapshot.docs[0];
+  return { id: userDoc.id, ...userDoc.data() };
+}
+
 type UserData = {
   id?: string;
   email: string;
@@ -33,19 +44,18 @@ type UserData = {
   role?: string;
 };
 
-type SignUpCallback = (response: {
+type ServiceCallback = (response: {
   status: boolean;
   message: string;
   id?: string;
+  data?: any;
 }) => void;
 
-export async function signUpUser(userData: UserData, callback: SignUpCallback) {
+export async function signUpUser(userData: UserData, callback: ServiceCallback) {
   // Check if user already exists
-  const q = query(collection(db, "users"));
-  const querySnapshot = await getDocs(q);
-  const userExists = querySnapshot.docs.some(
-    (doc) => doc.data().email === userData.email,
-  );
+  const existingUser = await getUserByEmail(userData.email);
+  const userExists = existingUser !== null;
+  console.log(userExists);
 
   if (userExists) {
     callback({ status: false, message: "User already exists!" });
@@ -67,20 +77,56 @@ export async function signUpUser(userData: UserData, callback: SignUpCallback) {
 }
 
 export async function signInUser(email: string, password: string) {
-  const q = query(collection(db, "users"), where("email", "==", email));
-  const querySnapshot = await getDocs(q); // Get all users to find matching email
-  const userDoc = querySnapshot.docs[0];
+  const existingUser = await getUserByEmail(email);
+  console.log(existingUser)
 
-  if (!userDoc) {
+  if (!existingUser) {
     return null;
   }
 
   // Verify password
-  const userData = userDoc.data() as UserData;
+  const userData = existingUser as UserData;
   const isPasswordValid = await bcrypt.compare(password, userData.password); // Compare hashed passwords
 
   if (!isPasswordValid) {
     return null;
   }
-  return { id: userDoc.id, ...userData };
+  return existingUser;
+}
+
+export async function signInWithGoogle(userData: UserData, callback: ServiceCallback) {
+  // Check if user already exists
+  const existingUser = await getUserByEmail(userData.email) as UserData | null;
+  const userExists = existingUser !== null;
+  console.log(userExists);
+  if (userExists) {
+    try {
+      userData.role = existingUser!.role;
+      // update existing user data if needed
+      // await updateDoc(doc(db, "users", existingUser!.id), userData);
+  
+      callback({
+        status: true,
+        message: "User signed in successfully",
+        id: existingUser!.id,
+        data: existingUser,
+      });
+      return;
+    } catch (error) {
+      callback({ status: false, message: `Error signing in user: ${error}` });
+      return;
+    }
+  }
+
+  try {
+    userData.role = "user"; // default role
+    const docRef = await addDoc(collection(db, "users"), userData);
+    callback({
+      status: true,
+      message: "User registered successfully",
+      id: docRef.id,
+    });
+  } catch (error) {
+    callback({ status: false, message: `Error registering user: ${error}` });
+  }
 }

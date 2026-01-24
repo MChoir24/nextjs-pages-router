@@ -1,5 +1,4 @@
-import { signInUser } from "@/lib/firebase/service";
-import { log } from "console";
+import { signInUser, signInWithGoogle } from "@/lib/firebase/service";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CreadentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -32,18 +31,29 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jwt({ token, account, user }: any) {
+    async jwt({ token, account, user }: any) {
       if (account?.provider === "credentials") {
         token.email = user?.email;
         token.role = user?.role;
       }
       if (account?.provider === "google") {
-        token.id = user?.id;
-        token.email = user?.email;
-        token.role = "user";
-        token.name = user?.name;
-        token.image = user?.image;
-      }
+        await signInWithGoogle(
+          {
+            email: token.email,
+            name: token.name,
+            password: "", // No password for Google sign-in
+          },
+          (response) => {
+            if (response.status) {
+              token.id = user?.id;
+              token.email = user?.email;
+              token.name = user?.name;
+              token.image = user?.image;
+            }
+          }
+        );
+      };
+
       return token;
     },
 
