@@ -26,7 +26,7 @@ export async function retrieveDataById(collectionName: string, id: string) {
   return data;
 }
 
-export async function getUserByEmail(email: string){
+export async function getUserByEmail(email: string) {
   const q = query(collection(db, "users"), where("email", "==", email));
   const querySnapshot = await getDocs(q);
   if (querySnapshot.empty) {
@@ -42,16 +42,20 @@ type UserData = {
   password: string;
   name: string;
   role?: string;
+  type?: string;
 };
 
 type ServiceCallback = (response: {
   status: boolean;
   message: string;
   id?: string;
-  data?: any;
+  data?: unknown;
 }) => void;
 
-export async function signUpUser(userData: UserData, callback: ServiceCallback) {
+export async function signUpUser(
+  userData: UserData,
+  callback: ServiceCallback,
+) {
   // Check if user already exists
   const existingUser = await getUserByEmail(userData.email);
   const userExists = existingUser !== null;
@@ -78,7 +82,7 @@ export async function signUpUser(userData: UserData, callback: ServiceCallback) 
 
 export async function signInUser(email: string, password: string) {
   const existingUser = await getUserByEmail(email);
-  console.log(existingUser)
+  console.log(existingUser);
 
   if (!existingUser) {
     return null;
@@ -94,17 +98,21 @@ export async function signInUser(email: string, password: string) {
   return existingUser;
 }
 
-export async function signInWithGoogle(userData: UserData, callback: ServiceCallback) {
+export async function signInWithGoogle(
+  userData: UserData,
+  callback: ServiceCallback,
+) {
   // Check if user already exists
-  const existingUser = await getUserByEmail(userData.email) as UserData | null;
+  const existingUser = (await getUserByEmail(
+    userData.email,
+  )) as UserData | null;
   const userExists = existingUser !== null;
-  console.log(userExists);
   if (userExists) {
     try {
       userData.role = existingUser!.role;
       // update existing user data if needed
-      // await updateDoc(doc(db, "users", existingUser!.id), userData);
-  
+      await updateDoc(doc(db, "users", existingUser!.id), userData);
+
       callback({
         status: true,
         message: "User signed in successfully",
@@ -120,6 +128,7 @@ export async function signInWithGoogle(userData: UserData, callback: ServiceCall
 
   try {
     userData.role = "user"; // default role
+    userData.type = "google"; // default type
     const docRef = await addDoc(collection(db, "users"), userData);
     callback({
       status: true,

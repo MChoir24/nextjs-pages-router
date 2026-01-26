@@ -49,10 +49,11 @@ const authOptions: NextAuthOptions = {
               token.email = user?.email;
               token.name = user?.name;
               token.image = user?.image;
+              token.type = "google";
             }
-          }
+          },
         );
-      };
+      }
 
       return token;
     },
