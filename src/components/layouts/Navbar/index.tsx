@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import NavLink from "@/components/elements/NavLink";
+import Image from "next/image";
 
 export default function Navbar() {
   const { data } = useSession();
@@ -9,7 +10,7 @@ export default function Navbar() {
     <div className="flex p-4 justify-between bg-gray-800 text-white gap-4">
       {/* <div className={style.navbar}> */}
       <div className="flex items-end gap-4">
-        <Link href="/" className="font-bold text-3xl">
+        <Link href="/" className="font-bold text-3xl" id="title">
           My Navbar
         </Link>
         <NavLink lineColor="bg-blue-600" href="/products">
@@ -23,10 +24,11 @@ export default function Navbar() {
         <div className="flex gap-3 items-end">
           <div className="cursor-pointer flex items-center">
             {data.user.image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={data.user.image}
                 alt="Profile"
+                width={32}
+                height={32}
                 className="w-8 h-8 rounded-full mr-2"
               />
             )}

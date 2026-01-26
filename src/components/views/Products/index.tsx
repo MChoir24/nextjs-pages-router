@@ -1,5 +1,6 @@
 import { Product } from "@/pages/api/[[...products]]";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ProductsView({
   products = [],
@@ -32,9 +33,11 @@ export default function ProductsView({
               className="border flex mb-4 overflow-hidden hover:shadow-lg transition-shadow duration-300 active:shadow-none active:bg-neutral-200 hover:cursor-pointer"
               href={`/products/${product.id}`}
             >
-              <img
+              <Image
                 src={product.image}
                 alt="Products Banner"
+                width={192}
+                height={192}
                 className="h-48 aspect-square object-cover scale-105 transition-all duration-300 hover:scale-100"
               />
               <div className="p-4 my-4">
