@@ -23,20 +23,16 @@ export default function EditableField({
     string | number | null | undefined
   >(value ?? "");
 
-  // Keep internal state in sync when the `value` prop changes (e.g. session updates)
-  useEffect(() => {
-    setFieldValue(value ?? "");
-  }, [value]);
+  // // Keep internal state in sync when the `value` prop changes (e.g. session updates)
+  // useEffect(() => {
+  //   setFieldValue(value ?? "");
+  // }, [value]);
 
   const { data: session } = useSession(); //simulate save to session user
 
   const editHandler = async () => {
     if (isEditing) {
-      session!.user = {
-        ...session!.user,
-        [fieldName]: fieldValue,
-      };
-      console.log(session?.user);
+      console.log(fieldValue);
       // change data on session user
     }
     setIsEditing(!isEditing);
