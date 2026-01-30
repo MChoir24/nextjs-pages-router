@@ -9,14 +9,14 @@ export default function ProductsPage({ products }: { products: Product[] }) {
   );
 }
 
-export async function getStaticProps() {
-  // Fetch data from an API or database
-  const res = await fetch("http://localhost:3000/api/products");
-  const data = await res.json();
-  return {
-    props: {
-      products: data.data,
-    },
-    // revalidate: 10, // Revalidate every 60 seconds
-  };
-}
+// export async function getStaticProps() {
+//   // Fetch data from an API or database
+//   const res = await fetch("http://localhost:3000/api/products");
+//   const data = await res.json();
+//   return {
+//     props: {
+//       products: data.data,
+//     },
+//     // revalidate: 10, // Revalidate every 60 seconds
+//   };
+// }
