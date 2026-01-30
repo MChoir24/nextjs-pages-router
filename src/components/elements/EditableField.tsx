@@ -32,7 +32,6 @@ export default function EditableField({
 
   const editHandler = async () => {
     if (isEditing) {
-      console.log(fieldValue);
       // change data on session user
     }
     setIsEditing(!isEditing);

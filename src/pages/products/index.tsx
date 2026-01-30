@@ -5,7 +5,7 @@ import { fetcher } from "@/lib/swr/fetcher";
 export default function ProductsPage() {
   // const [products, setProducts] = useState([]);
 
-  const { data, error, isLoading } = useSWR("/api/products", fetcher);
+  const { data, isLoading } = useSWR("/api/products", fetcher);
 
   // useEffect(() => {
   //   fetch("/api/products")

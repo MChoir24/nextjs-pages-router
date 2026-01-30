@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Button } from "@/components/elements/Button";
+import Button from "@/components/elements/Button";
 import Link from "next/link";
 import { useState } from "react";
 import { Input } from "@/components/elements/Input";
@@ -29,7 +29,6 @@ export default function LoginViews() {
         password: formData.password,
         callbackUrl: callbackUrl,
       });
-      console.log(res);
       if (res && !res.error) {
         setIsLoading(false);
         push(callbackUrl);

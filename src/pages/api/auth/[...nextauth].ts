@@ -77,7 +77,6 @@ const authOptions: NextAuthOptions = {
       if ("role" in token && session.user) {
         session.user.role = token.role; // add custom role to session user
       }
-      console.log("session callback", session);
       return session;
     },
   },

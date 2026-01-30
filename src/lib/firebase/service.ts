@@ -59,7 +59,6 @@ export async function signUpUser(
   // Check if user already exists
   const existingUser = await getUserByEmail(userData.email);
   const userExists = existingUser !== null;
-  console.log(userExists);
 
   if (userExists) {
     callback({ status: false, message: "User already exists!" });
@@ -82,7 +81,6 @@ export async function signUpUser(
 
 export async function signInUser(email: string, password: string) {
   const existingUser = await getUserByEmail(email);
-  console.log(existingUser);
 
   if (!existingUser) {
     return null;

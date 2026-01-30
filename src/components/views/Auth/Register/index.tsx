@@ -1,4 +1,4 @@
-import { Button } from "@/components/elements/Button";
+import Button from "@/components/elements/Button";
 import { Input } from "@/components/elements/Input";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -12,7 +12,6 @@ export default function RegisterView() {
   const handleRegister = async (event: any) => {
     event.preventDefault();
     setError(null);
-    console.log("Registering user...");
     const form = event.target;
     const formData = {
       email: form.email.value,

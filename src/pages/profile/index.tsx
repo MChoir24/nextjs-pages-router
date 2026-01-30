@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
-  console.log(session?.user);
   return (
     <div className="p-8">
       <div>
