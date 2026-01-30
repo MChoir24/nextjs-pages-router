@@ -111,6 +111,10 @@ export async function signInWithGoogle(
     try {
       userData.role = existingUser!.role;
       // update existing user data if needed
+      if (!existingUser!.id) {
+        callback({ status: false, message: "User ID is missing" });
+        return;
+      }
       await updateDoc(doc(db, "users", existingUser!.id), userData);
 
       callback({
