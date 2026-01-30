@@ -1,9 +1,4 @@
 import EditableField from "@/components/elements/EditableField";
-import {
-  BeakerIcon,
-  PencilIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
