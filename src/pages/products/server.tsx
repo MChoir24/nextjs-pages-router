@@ -11,7 +11,7 @@ export default function ProductsPage({ products }: { products: Product[] }) {
 
 export async function getServerSideProps() {
   // Fetch data from an API or database
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/products`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
   const data = await res.json();
   return {
     props: {
